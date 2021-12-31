@@ -1,0 +1,101 @@
+<% provide :title, t('.page_title') %>
+<% currently_at '#' %>
+
+<section class="py-5 text-center container fst-italic"> 
+  <% if notice %>
+    <div id="notice" class="alert alert-success" role="alert">
+      <%= notice %>
+    </div>
+  <% end %>
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-6 mx-auto">
+      <h1 class="fw-light fs-1"> <%= t('.profile') %> </h1>
+      <div class="col-12">
+        <!-- Login -->
+        <div class="form-outline mb-4">
+          <input type="text" class="form-control active" value="<%= @user.username %>" readonly />
+          <label class="form-label"> <%= t('.login') %> </label>
+        </div>
+
+        <!-- Email -->
+        <div class="form-outline mb-4">
+          <input type="email" class="form-control active" value="<%= @user.email %>" readonly />
+          <label class="form-label"> <%= t('.email') %> </label>
+        </div>
+
+        <!-- Phone -->
+        <div class="form-outline mb-4">
+          <input type="email" class="form-control active" value="<%= @user.phone %>" readonly />
+          <label class="form-label"> <%= t('.phone') %> </label>
+        </div>
+      </div>
+
+      <% if current_user == @user %>
+        <h4 class="text-center font-weight-bold mx-3"> <%= t('.account_actions') %> </h4>
+        <!-- Buttons -->
+        <div class="row mb-4">
+          <div class="col">
+            <div class="form-outline">
+              <%= link_to 'Edit', edit_user_path(@user), class: "btn btn-info btn-block mb-4" %> 
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-outline">
+              <%= link_to 'Delete account', @user, class: "btn btn-danger btn-block mb-4", method: :delete, data: { confirm: t('delete_message') } %> 
+            </div>
+          </div>
+        </div>
+      <% end %> 
+    </div>
+
+    <div class="col-lg-6 col-md-6 mx-auto">
+      <h2 class="fw-light text-center fs-1"> <%= t('.orders') %> </h2>
+      <!-- Orders -->
+      <% @user.orders.order(complete: :desc, worker_id: :desc).each_with_index do |order, index| %>  
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-heading<%= index %>">
+            <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse" data-mdb-target="#flush-collapse<%= index %>"
+              aria-expanded="false" aria-controls="flush-collapse<%= index %>">
+              <%= order.title %>
+              <% if order.complete %>
+                (<%= t('.complete_worker') %> <%= User.find(order.worker_id).email %>)
+              <% else %>
+                <% unless order.worker_id.nil? %> (<%= t('.worker') %> <%= User.find(order.worker_id).email %> ) <% end %>
+              <% end %>
+            </button>
+          </h2>
+          <div id="flush-collapse<%= index %>" class="accordion-collapse collapse " aria-labelledby="flush-heading<%= index %>"
+            data-mdb-parent="#accordionFlushExample">
+            <div class="card">
+              <div class="card-body">
+                <div class="fs-5"> <%= t('.description') %>: <br/>
+                  <span class="fs-6">
+                    <%= order.description %> 
+                  <span>
+                </div>
+                <div class="fs-5"> <%= t('.price') %>: <%= order.cost %>$ </div>
+
+                <% if current_user == @user && !order.complete && order.time_to_complete > Date.today %>
+                  <!-- Buttons -->
+                  <div class="row mb-4">
+                    <div class="col">
+                      <div class="form-outline">
+                        <%= link_to t('.edit_order'), edit_order_path(order), class: "btn btn-info btn-block mb-4" %> 
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-outline">
+                        <%= link_to t('.delete_order'), order_path(order.id), class: "btn btn-danger btn-block mb-4", method: :delete, data: { confirm: t('delete_message') } %> 
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+
+              <div class="card-footer text-muted"> <%= t('.time_to_complete') %> <%= l order.time_to_complete, format: :long %></div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

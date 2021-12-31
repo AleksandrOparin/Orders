@@ -1,33 +1,163 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  invalid_login_or_password: "Invalid username or password"
+
+  en: "English"
+  ru: "Russian"
+  delete_message: "Are you sure?"
+
+  layouts:
+    application:
+      base_title: "Project"
+
+  activerecord:
+    attributes:
+      user:
+        password: "Password"
+
+    errors:
+      models:
+        order:
+          attributes:
+            title: 
+              blank: "Please enter the title"
+            description: 
+              blank: "Please enter description"
+            cost:
+              blank: "Please enter price"
+              not_a_number: "Incorrect price was entered"
+            time_to_complete: 
+              blank: "Please enter a deadline"
+
+        user:
+          attributes:
+            username:
+              blank: "Please enter an username"
+              taken: "This username is already taken"
+            email: 
+              blank: "Please enter an email"
+              taken: "This email is already taken"
+              invalid: "Incorrect email was entered"
+            phone: 
+              blank: "Please enter phone number"
+              taken: "This phone is already taken"
+              invalid: "Incorrect phone was entered"
+            password:
+              blank: "Please enter a password"
+              too_short:
+                many: The password is too short (less than %{:count} characters)
+            old_password: 
+              invalid: "The old password was entered incorrectly"
+
+  user:
+    errors:
+      password:
+        confirmation: "Does not match password"
+        old_password: "Old password is incorrect"
+        complexity: "Password should be more complicated"
+
+  menu: 
+    Orders: "Orders"
+    All_users: "All users"
+
+  orders:
+    form:
+      new_page_title: "New order"
+      edit_page_title: "Editing the order"
+      new_title: "Creating new order"
+      edit_title: "Editing the order"
+      title_placeholder: "Title for order"
+      describe_placeholder: "Try to describe your order"
+      cost_placeholder: "Approximate amount"
+      time_to_complete_placeholder: "Choose a deadline"
+      upload: "Upload"
+      save_changes: "Save changes"
+
+    index:
+      new_order: "New Order"
+      title: "Orders"
+      all_orders: "All"
+      selected_orders: "Selected"
+      coplete_orders: "Completed"
+
+    tabs:
+      description: "Description of what needs to be done"
+      price: "Price for an order completed on time"
+      take_order: "Take this order"
+      cancel_order: "Cancel order"
+      complete_order: "Complete order"
+      time_to_complete: "This work must be submitted no later than"
+      distance: Left
+      days: Day(s)
+      details: "For detailed information write"
+
+    update:
+      update_flash: "Order was successfully updated"
+
+    destroy:
+      destroy_flash: "Order was successfully destroyed"
+
+  session:
+    login:
+      sign_in: "Sign in"
+      login_placeholder: "Enter a valid login"
+      login: "Login"
+      password_placeholder: "Enter password"
+      password: "Password"
+      login_button: "Login"
+      have_account: "Don't have an account"
+      register: "Register"
+  
+  users:
+    form:
+      new_page_title: "User Registration"
+      edit_page_title: "Editing User"
+      new_title: "Sign up"
+      edit_title: "Editing a user"
+      username_placeholder: "Your login"
+      email_placeholder: "Your Email"
+      phone_placeholder: "Your mobile phone"
+      old_password_placeholder: "Old password"
+      password_placeholder: "Password"
+      new_password_placeholder: "New password"
+      password_confirmation_placeholder: "Repeat your password"
+      register: "Register"
+      save_changes: "Save changes"
+      have_account: "Have already an account"
+      login_link: "Login here"
+
+    index:
+      title: "All users"
+      username: "Username"
+      email: "Email"
+      phone: "Phone"
+      show: "Show"
+    
+    show: 
+      page_title: "Profile"
+      profile: "Profile"
+      login: "Login"
+      email: "Email address"
+      phone: "Phone number"
+      account_actions: "Account actions"
+      orders: "Orders"
+      description: "Description of what needs to be done"
+      price: "Price for an order completed on time"
+      edit_order: "Edit order"
+      delete_order: "Delete order"
+      time_to_complete: "This work must be submitted no later than"
+      worker: "The order was taken by user"
+      complete_worker: "The order completed by user"
+
+    update:
+      update_flash: "User was successfully updated"
+
+    destroy:
+      destroy_flash: "User was successfully destroyed"
+
+  partials:
+    navbar:
+      profile: "Profile"
+      settings: "Settings"
+      logout: "Logout"
+      login: "Login"
+  

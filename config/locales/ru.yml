@@ -1,0 +1,162 @@
+ru:
+  invalid_login_or_password: "Неверный логин или пароль"
+
+  en: "Английский"
+  ru: "Русский"
+  delete_message: "Вы уверены?"
+
+  layouts:
+    application:
+      base_title: "Проект"
+
+  activerecord:
+    attributes:
+      user:
+        password: "Пароль"
+
+    errors:
+      models:
+        order:
+          attributes:
+            title: 
+              blank: "Пожалуйста введите заголовок"
+            description: 
+              blank: "Пожалуйста введите описание"
+            cost:
+              blank: "Пожалуйста введите цену"
+              not_a_number: "Проверьте введённую цену"
+            time_to_complete: 
+              blank: "Пожалуйста введите дату"    
+
+        user:
+          attributes:
+            username:
+              blank: " Пожалуйста введите логин"
+              taken: " Этот логин уже занят"
+            email: 
+              blank: "Пожалуйста введите почту"
+              taken: "Этот почтовый адрес уже существует"
+              invalid: "Неверно введена почта"
+            phone: 
+              blank: "Пожалуйста введите номер телефона"
+              taken: "Это номер телефона уже существует"
+              invalid: "Неверный номер телефона"
+            password:
+              blank: "Пожалуйста введите пароль"
+              too_short:
+                many: Пароль слишком короткий (меньше %{count} символов)
+            old_password: 
+              invalid: "Старый пароль введён неверно"
+  
+  user:
+    errors:
+      password:
+        confirmation: "Пароли не совпадают"
+        old_password: "Введен неверный старый пароль"
+        complexity: "Пароль должнен быть сложнее"
+
+  menu: 
+    Orders: "Заказы"
+    All_users: "Все пользователи"
+
+  orders:
+    form:
+      new_page_title: "Новый заказ"
+      edit_page_title: "Редактировать заказ"
+      new_title: "Создать новый заказ"
+      edit_title: "Сохранить изменения"
+      title_placeholder: "Заголовок заказа"
+      describe_placeholder: "Описание заказа"
+      cost_placeholder: "Приблизительная цена"
+      time_to_complete_placeholder: "Выберите срок выполнения"
+      upload: "Загрузить"
+      save_changes: "Сохранить изменения"
+
+    index:
+      new_order: "Новый заказ"
+      title: "Заказы"
+      all_orders: "Все"
+      selected_orders: "Выбранные"
+      coplete_orders: "Выполненные"
+    
+    tabs:
+      description: "Описание того, что нужно сделать"
+      price: "Цена за сделанную вовремя работу"
+      take_order: "Взять заказ"
+      cancel_order: "Отменить выполнение заказа"
+      complete_order: "Отметить как выполненный"
+      time_to_complete: "Заказ должен быть сделан не позднее чем"
+      distance: Осталось(ся)
+      days: День(ей)
+      details: "Для подробной информации пишите"
+
+    update:
+      update_flash: "Заказ был успешно изменён"
+
+    destroy:
+      destroy_flash: "Заказ был удалён"
+
+  session:
+    login:
+      sign_in: "Войти"
+      login_placeholder: "Введите верный никнейм"
+      login: "Логин"
+      password_placeholder: "Введите пароль"
+      password: "Пароль"
+      login_button: "Войти"
+      have_account: "Нет аккаунта"
+      register: "Зарегистрироватсья"
+
+  users:
+    form:
+      new_page_title: "Регистрация пользователей"
+      edit_page_title: "Редактирование пользователя"
+      new_title: "Зарегистрировать пользователя"
+      edit_title: "Редактировать пользователя"
+      username_placeholder: "Ваш логин"
+      email_placeholder: "Ваша почта"
+      phone_placeholder: "Ваш номер телефона"
+      old_password_placeholder: "Старый пароль"
+      password_placeholder: "Пароль"
+      new_password_placeholder: "Новый пароль"
+      password_confirmation_placeholder: "Повторите пароль"
+      register: "Зарегистрировать"
+      save_changes: "Сохранить изменения"
+      have_account: "Уже есть аккаунт"
+      login_link: "Войти"
+
+    index:
+      title: "Все пользователи"
+      username: "Логин"
+      email: "Почта"
+      phone: "Номер телефона"
+      show: "Посмотреть"
+
+    show: 
+      page_title: "Профиль"
+      profile: "Профиль"
+      login: "Логин"
+      email: "Почта"
+      phone: "Номер телефона"
+      account_actions: "Действия с аккаунтом"
+      orders: "Выставленные заказы"
+      description: "Описание заказа"
+      price: "Цена за сделанную вовремя работу"
+      edit_order: "Редактировать заказ"
+      delete_order: "Удалить заказ"
+      time_to_complete: "Заказ должен быть сделан не позднее чем"
+      worker: "Заказ взят пользователем"
+      complete_worker: "Заказ выполнен пользователем"
+
+    update:
+      update_flash: "Данные пользователя были успешно изменены"
+
+    destroy:
+      destroy_flash: "Пользователь был удалён"
+
+  partials:
+    navbar:
+      profile: "Профиль"
+      settings: "Настройки"
+      logout: "Выйти"
+      login: "Войти"

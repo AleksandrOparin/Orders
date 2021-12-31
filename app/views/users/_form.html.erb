@@ -1,0 +1,109 @@
+<% provide :title, user.new_record? ? t('.new_page_title') : t('.new_page_title') %>
+
+<section class="vh-100" style="background-color: #eee;">
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-12 col-xl-11">
+        <div class="card text-black" style="border-radius: 25px;">
+          <div class="card-body p-md-5">
+            <div class="row justify-content-center">
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4"><%= user.new_record? ? t('.new_title') : t('.edit_title') %></p>
+    
+                <%= form_with(model: user, class: "mx-1 mx-md-4") do |form| %>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <%= form.text_field :username, class: user.new_record? ? "form-control mb-0" : "form-control mb-0 active", required: true %>
+                      <%= form.label :username, class: "form-label", value: t('.username_placeholder') %>
+
+                      <% if user.errors[:username].any? %>
+                        <div class="form-helper text-danger"> <%= user.errors.messages_for(:username)[0] %> </div>
+                      <% end %>
+
+                    </div>
+                  </div>
+  
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <%= form.text_field :email, class: user.new_record? ? "form-control mb-0" : "form-control mb-0 active", required: true %>
+                      <%= form.label :email, class: "form-label", value: t('.email_placeholder') %>
+
+                      <% if user.errors[:email].any? %>
+                        <div class="form-helper text-danger"> <%= user.errors.messages_for(:email)[0] %> </div>
+                      <% end %>
+
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <%= form.phone_field :phone, class: user.new_record? ? "form-control mb-0" : "form-control mb-0 active", required: true %>
+                      <%= form.label :phone, class: "form-label", value: t('.phone_placeholder') %>
+
+                      <% if user.errors[:phone].any? %>
+                        <div class="form-helper text-danger"> <%= user.errors.messages_for(:phone)[0] %> </div>
+                      <% end %>
+
+                    </div>
+                  </div>
+
+                  <% unless user.new_record? %>
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <%= form.password_field :old_password, class: "form-control mb-0" %>
+                        <%= form.label :old_password, class: "form-label", value: t('.old_password_placeholder') %>
+                      </div>
+                    </div>
+                  <% end %>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <%= form.password_field :password, class: "form-control mb-0", required: false %>
+                      <%= form.label :password, class: "form-label", value: (user.new_record? ? t('.password_placeholder') : t('.new_password_placeholder')) %>
+                    </div>
+                  </div>
+    
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                        <%= form.password_field :password_confirmation, class: "form-control mb-0", required: false %>
+                        <%= form.label :password_confirmation, class: "form-label", value: t('.password_confirmation_placeholder') %>
+                        
+                        <% if user.errors[:old_password].any? %>
+                          <div class="form-helper text-danger"> <%= user.errors.messages_for(:old_password).join('') %> </div>
+                        <% elsif user.errors[:password].any? %>
+                          <div class="form-helper text-danger"> <%= user.errors.messages_for(:password)[0] %> </div>
+                        <% elsif user.errors[:password_confirmation].any? %>
+                          <div class="form-helper text-danger"> <%= user.errors.messages_for(:password_confirmation).join('') %> </div>
+                        <% end %>
+
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    <%= form.submit (user.new_record? ? t('.register') : t('.save_changes')), class: "btn btn btn-outline-primary btn-rounded btn-lg" %>
+                  </div>
+
+                  <% if user.new_record? %>
+                    <p class="text-center text-muted mt-5 mb-0 fs-6"> <%= t('.have_account') %>? <u><%= link_to t('.login_link'), session_login_path %></u> </p>
+                  <% end %>
+
+                <% end %>
+
+              </div>
+              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+                <img src= "<%= user.new_record? ? '/images/Registration.jpg' : '/images/Edit.jpg'%>" class="img-fluid rounded-pill" alt="Sample image">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

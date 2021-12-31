@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  username: Firstuser
+  email: user@first.ru
+  phone: 8-735-325-4287
+  password_digest: <%= BCrypt::Password.create('Secret1') %>
+  id: 1
+
+two:
+  username: Seconduser
+  email: user@second.ru
+  phone: 8-643-953-4234
+  password_digest: <%= BCrypt::Password.create('Secret2') %>
+  id: 2

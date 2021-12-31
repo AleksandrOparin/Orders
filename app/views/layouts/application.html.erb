@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>MdbRails</title>
+    <title><%= full_title(yield(:title)) %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', :defer => "true" %>
+    
+    <%= javascript_pack_tag 'application', :defer => "true" %>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"/>
   </head>
 
   <body>
+    <%= yield :menu %>
+      
     <%= yield %>
   </body>
-  <%= javascript_pack_tag 'mdb-ui-kit', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'mdb-ui-kit', :defer => "true" %>
 </html>

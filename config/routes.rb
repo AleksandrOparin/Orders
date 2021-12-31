@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
-  root 'style_guide#show'
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
+    root 'orders#index'
+
+    get 'orders/orders'
+    get 'orders/take'
+    get 'orders/remove'
+    get 'orders/take_orders'
+    get 'orders/complete'
+    get 'orders/complete_orders'
+    
+    get 'session/login'
+    post 'session/create'
+    get 'session/logout'
+    resources :users
+    resources :orders
+  end
 end

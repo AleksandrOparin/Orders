@@ -1,0 +1,226 @@
+const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+// a and b are javascript Date objects
+function dateDiffInDays(a, b) {
+  // Discard the time and time-zone information.
+  const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+  return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+}
+
+function alertContents(button, httpRequest) {
+  if (httpRequest.readyState == 4) {
+    if (httpRequest.status == 204) {
+      let accordion = button.parentElement.parentElement.parentElement.parentElement.parentElement
+      if (button.dataset.takeOrderId) accordion.remove()
+      accordion = accordion.parentElement.parentElement.parentElement
+      if (button.dataset.removeOrderId) accordion.remove()
+      if (button.dataset.completeOrderId) accordion.remove()
+    } else {
+      alert('С запросом возникла проблема.')
+    }
+  }
+}  
+
+function getData(id) {
+  let url
+  if (id === 'Tab-1') url = '/orders/orders'
+  else if (id ==='Tab-2') url = '/orders/take_orders'
+  else if (id === 'Tab-3') url = '/orders/complete_orders'
+  return fetch(url, {headers: {'Content-Type': 'application/json'}}).then(res => res.json());
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  getData('Tab-1').then(json => create(json))
+
+  const AllTabs = document.querySelectorAll('a[data-mdb-toggle="tab"]')
+
+  AllTabs.forEach((tab) => {
+    let tabId = tab.id
+    tab.addEventListener('click', () => {
+      getData(tabId).then(json => {
+        create(json)
+      });
+    })
+  });
+
+});
+
+function create(orders) {
+  const accordion = document.getElementById('Tabs').firstElementChild.firstElementChild;
+
+  let index = 0
+  accordion.innerHTML = ''
+
+  if (orders) {
+    orders.forEach(({id, title, description, cost, time_to_complete, user_id, worker_id, complete, email, current_user}) => {
+      const accordionItem = document.createElement('div')
+      accordionItem.classList.add('accordion-item')
+
+      const header = document.createElement('h2')
+      header.classList.add('accordion-header');
+      header.setAttribute('id', `flush-heading${index}`);
+      header.innerHTML = `
+        <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse" data-mdb-target="#flush-collapse${index}"
+          aria-expanded="false" aria-controls="flush-collapse${index}">
+          ${title}
+        </button>
+      `
+
+      // Create accordionContent
+      const accordionContent = document.createElement('div');
+      accordionContent.setAttribute('id', `flush-collapse${index}`);
+      accordionContent.classList.add('accordion-collapse');
+      accordionContent.classList.add('collapse');
+      accordionContent.setAttribute('aria-labelledby', `flush-heading${index}`);
+      accordionContent.setAttribute('aria-expanded', 'false');
+      accordionContent.setAttribute('aria-controls', `flush-collapse${index}`);
+
+      // Create card (only tag)
+      const card = document.createElement('div');
+      card.classList.add('card');
+
+      // Create body for card
+      const cardBody = document.createElement('div');
+      cardBody.classList.add('card-body');
+      cardBody.classList.add('pt-2');
+      cardBody.classList.add('pb-2');
+      cardBody.innerHTML = `
+        <div class="fs-5"> <%= t('.description') %>: <br/>
+          <span class="fs-6"> ${description} <span>
+        </div>
+        <div class="fs-5" id="Price${index}"> <%= t('.price') %>: ${cost}$ </div>
+      `
+
+      // Create buttons fo card
+      const buttons = document.createElement('div');
+
+      if (current_user !== 'none') {
+        if (user_id != current_user) {
+          if (!worker_id) {
+            buttons.innerHTML = `
+              <button class="btn btn-primary" data-take-order-id="${id}"> <%= t '.take_order' %> </button>
+            `
+          } else {
+            if (!complete) {
+              buttons.innerHTML = `
+                <div class="row mb-4">
+                  <div class="col">
+                    <div class="form-outline">
+                      <button class="btn btn-danger" data-remove-order-id="${id}"> <%= t '.cancel_order' %> </button>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-outline">
+                      <button class="btn btn-success" data-complete-order-id="${id}"> <%= t '.complete_order' %> </button>
+                    </div>
+                  </div>
+                </div>
+              `
+            }
+          }
+        }
+      }
+
+      // Create footer for card
+      const cardFooter = document.createElement('div');
+      cardFooter.classList.add('card-footer');
+      cardFooter.classList.add('text-muted')
+      cardFooter.innerHTML = `
+        <%= t '.time_to_complete' %> ${time_to_complete}
+      `
+
+      // If order not complete we show distance and user email
+      if (!complete) {
+
+        // Create distance
+        let todayDate = new Date();
+        let dangerPeriod = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate() + 6);
+        dangerPeriod.setHours(3, 0, 0, 0);
+        let distance = dateDiffInDays(todayDate, new Date(time_to_complete));
+
+        if (new Date(time_to_complete) < dangerPeriod) {
+          cardFooter.innerHTML += `
+            <span class="text-danger"> 
+            ( <%= t '.distance' %> ${distance} <%= t '.days' %>) 
+            </span>
+          `
+        } else {
+          cardFooter.innerHTML += `
+            <span> 
+              ( <%= t '.distance' %> ${distance} <%= t '.days' %>) 
+            </span>
+          `
+        }
+    
+        // Create user email
+        cardFooter.innerHTML += `
+          <br/>
+          <%= t '.details' %> ${email}  
+        `
+      }
+
+      // Collecting card
+      cardBody.appendChild(buttons);
+      card.appendChild(cardBody);
+      card.appendChild(cardFooter);
+
+      // Collecting accordionContent
+      accordionContent.append(card);
+
+      // Collecting accordion
+      accordionItem.appendChild(header);
+      accordionItem.appendChild(accordionContent);
+
+      index++
+      accordion.append(accordionItem)
+    })
+  }
+
+  // Linking our buttons
+  // Take
+  const TakeOrderButtons = document.querySelectorAll('button[data-take-order-id]');
+  
+  if (TakeOrderButtons) {
+    TakeOrderButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const order_id = button.dataset.takeOrderId
+        const xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function() { alertContents(button, xhr); };
+        xhr.open('GET', `/orders/take?id=${order_id}`, true)
+        xhr.send()
+      })
+    })
+  }
+
+  // Remove
+  const RemoveOrderButtons = document.querySelectorAll('button[data-remove-order-id]')
+
+  if (RemoveOrderButtons) {
+    RemoveOrderButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const order_id = button.dataset.removeOrderId
+        const xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function() { alertContents(button, xhr); };
+        xhr.open('GET', `/orders/remove?id=${order_id}`, true)
+        xhr.send()
+      })
+    })
+  }
+
+  // Complete
+  const CompleteOrderButtons = document.querySelectorAll('button[data-complete-order-id]')
+
+  if (CompleteOrderButtons) {
+    CompleteOrderButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const order_id = button.dataset.completeOrderId
+        const xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function() { alertContents(button, xhr); };
+        xhr.open('GET', `/orders/complete?id=${order_id}`, true)
+        xhr.send()
+      })
+    })
+  }
+}

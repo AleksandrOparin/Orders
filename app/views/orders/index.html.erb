@@ -1,0 +1,44 @@
+<script> <%= render partial: 'tabs', formats: [:js] %> </script>
+
+<% provide :title, t('menu.Orders') %>
+<% currently_at t('menu.Orders') %>
+
+<div class="container mw-100" style="width: 800px;">
+
+  <% if current_user %>
+  <div class="d-flex justify-content-center mx-4 mt-3 mb-lg-4">
+    <%= link_to t('.new_order'), new_order_path, class: "btn btn btn-outline-primary btn-rounded btn-lg", id: "new-btn" %>
+  </div>
+  <% end %>
+  <h1 class="text-center"> <%= t '.title' %> </h1>
+
+  <!-- Tabs navs -->
+  <ul class="nav nav-tabs nav-justified mb-3" id="TabsList" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active" id="Tab-1" data-mdb-toggle="tab">
+        <%= t '.all_orders' %>
+      </a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link <%= current_user ? '' : 'disabled' %>" id="Tab-2" data-mdb-toggle="tab">
+        <%= t '.selected_orders' %>
+      </a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link <%= current_user ? '' : 'disabled' %>" id="Tab-3" data-mdb-toggle="tab">
+        <%= t '.coplete_orders' %>
+      </a>
+    </li>
+  </ul>
+  <!-- Tabs navs -->
+
+  <!-- Tabs content -->
+  <div class="tab-pane" id="Tabs" role="tabpanel" aria-labelledby="Tab-1"> 
+    <div class="col-lg-10 col-md-6 mx-auto text-center">
+      <div class="accordion accordion-flush">
+      </div>
+    </div>
+  </div>
+  <!-- Tabs content -->
+  
+</div>

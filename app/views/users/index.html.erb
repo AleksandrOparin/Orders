@@ -1,0 +1,34 @@
+<% provide :title, t('menu.All_users') %>
+<% currently_at t('menu.All_users') %>
+
+<p id="notice"><%= notice %></p>
+
+<section class="py-5 text-center container"> 
+  <div class="row py-lg-5">
+    <div class="mx-auto table-responsive mw-100" style="width: 800px;">
+      <h1 class="fw-light fs-1"> <%= t('.title') %> </h1>
+      <div class="col-12 fs-2">
+
+        <table class="table text-center">
+          <thead>
+            <tr>
+              <th> <%= t('.username') %> </th>
+              <th> <%= t('.email') %> </th>
+              <th> <%= t('.phone') %> </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td valign="middle" class="fs-5"><%= user.username %></td>
+                <td valign="middle" class="fs-5"><%= user.email %></td>
+                <td valign="middle" class="fs-5"><%= user.phone %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

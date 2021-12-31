@@ -1,0 +1,102 @@
+<%= provide :menu do %>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+      <!-- Toggle button -->
+      <button class="navbar-toggler ms-lg-3 my-3 my-lg-0" type="button" data-mdb-toggle="collapse"
+        data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <i class="fas fa-bars text-light"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <!-- Left side -->
+        <!-- Link to - active disabled -->
+        <ul class="navbar-nav me-auto d-flex flex-row mt-3 mt-lg-0">
+          <li class="nav-item text-center mx-2 mx-lg-1">
+            <%= nav_tab t('menu.Orders'), 'briefcase', root_path, class: 'nav-link', current_page: current_page %>
+          </li>
+
+          <li class="nav-item text-center mx-2 mx-lg-1">
+            <%= nav_tab t('menu.All_users'), 'users', users_path, class: 'nav-link', current_page: current_page %>
+          </li>
+        </ul>
+        <!-- Left side -->
+        
+
+        <!-- Right side -->
+        <ul class="navbar-nav d-flex flex-row ms-auto mb-2 mb-lg-0">
+
+          <li class="nav-item dropdown text-center mx-2 mx-lg-1">
+            <a class="nav-link d-sm-flex align-items-sm-center dropdown-toggle" id="locale-btn" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+              <strong class="d-none d-sm-block ms-1"><%= t I18n.locale %></strong>
+            </a>
+
+            <!-- Dropdown menu -->
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="navbarDropdown">
+              <% I18n.available_locales.each do |locale| %>
+                <li>
+                  <% if I18n.locale == locale %>
+                    <%= tag.scpan t(locale), class: "dropdown-item", id: locale %>
+                  <% else %>
+                    <%= link_to t(locale), url_for(locale: locale), class: "dropdown-item", id: locale %>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </li>
+
+          <% if current_user %>
+            <li class="nav-item dropdown text-center mx-2 mx-lg-1">
+              <a class="nav-link d-sm-flex align-items-sm-center dropdown-toggle" role="button" data-mdb-toggle="dropdown"
+                aria-expanded="false">
+                <i class="fas fa-user fa-lg mb-1"></i>
+                <strong class="d-none d-sm-block ms-1"><%= current_user.username %></strong>
+              </a>
+
+              <!-- Dropdown menu -->
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                <li>
+                  <%= link_to current_user, class: "dropdown-item" do %>
+                    <i class="far fa-user fa-lg mb-1"></i>
+                    <%= t '.profile' %>
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to edit_user_path(current_user), class: "dropdown-item" do %>
+                    <i class="fas fa-cog fa-lg mb-1"></i>
+                    <%= t '.settings' %>
+                  <% end %>
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <%= link_to session_logout_path, class: "dropdown-item" do %>
+                    <i class="fas fa-sign-out-alt fa-lg mb-1"></i>
+                    <%= t '.logout' %>
+                  <% end %>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          <% else %>
+            <div class="d-flex align-items-center">
+              <%= link_to session_login_path, class: "btn btn-link px-3 me-2" do %>
+                <i class="fas fa-sign-in-alt fa-lg mb-1"></i>
+                <%= t '.login' %>
+              <% end %>
+            </div>
+          <% end %>
+        </ul>
+        <!-- Right side -->
+      </div>
+
+    </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
+<% end %>
